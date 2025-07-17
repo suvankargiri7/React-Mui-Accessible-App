@@ -2,9 +2,16 @@
     "name": "react-mui-accessible-app",
     "version": "1.0.0",
     "private": true,
-    "scripts": {},
+    "scripts": {
+        "start": "webpack serve --mode development",
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "test:coverage": "jest --coverage",
+        "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\""
+    },
     "devDependencies": {
         "@babel/core": "^7.28.0",
+        "@babel/plugin-transform-runtime": "^7.28.0",
         "@babel/preset-env": "^7.28.0",
         "@babel/preset-react": "^7.27.1",
         "@babel/preset-typescript": "^7.27.1",
