@@ -1,4 +1,5 @@
 import { screen, fireEvent, render } from '@testing-library/react';
+import { axe } from 'jest-axe';
 import InputFieldComponent from '../components/inputfield';
 
 describe('Test input component', () => {
@@ -29,5 +30,17 @@ describe('Test input component', () => {
     expect(input).toHaveAttribute('value', 'Todo 1');
     fireEvent.change(input, { target: { value: 'Todo 2' } });
     expect(handleChange).toHaveBeenCalledWith('Todo 2');
+  });
+  it('it has no accessibility vialoations', async () => {
+    const handleChange = jest.fn();
+    const { container } = render(
+      <InputFieldComponent
+        label="Task Name"
+        value="Todo 1"
+        onChange={handleChange}
+      />,
+    );
+    const result = await axe(container);
+    expect(result).toHaveNoViolations();
   });
 });
