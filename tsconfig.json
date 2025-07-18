@@ -19,7 +19,8 @@
         "allowSyntheticDefaultImports": true,
         "forceConsistentCasingInFileNames": true,
         "sourceMap": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "types": ["jest", "node"]
     },
     "include": ["src"],
     "exclude": ["node_modules","dist", "**/*.test.tsx", "**/*.test.ts"],
