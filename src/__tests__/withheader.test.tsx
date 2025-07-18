@@ -1,4 +1,5 @@
 import { screen, render } from '@testing-library/react';
+import { axe } from 'jest-axe';
 import withHeader from '../hocs/withheader';
 
 const DummyComponent = () => <div> This is dummy component</div>;
@@ -14,5 +15,10 @@ describe('Test withheader HOC', () => {
     render(<WrapperComponent />);
     const dcomp = screen.getByText(/This is dummy component/i);
     expect(dcomp).toBeInTheDocument();
+  });
+  it('it has no accessibility vialoations', async () => {
+    const { container } = render(<WrapperComponent />);
+    const result = await axe(container);
+    expect(result).toHaveNoViolations();
   });
 });
