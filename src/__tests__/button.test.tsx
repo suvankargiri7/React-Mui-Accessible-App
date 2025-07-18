@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react"
+import { axe } from "jest-axe";
 import ButtonComponent from '../components/button';
 
 describe('Test button component', () => {
@@ -17,5 +18,14 @@ describe('Test button component', () => {
         expect(button).toBeInTheDocument();
         fireEvent.click(button);
         expect(handleClick).toHaveBeenCalledTimes(1);
+    })
+    it('it has no accessibility vialoations', async () => {
+        const {container} = render(
+            <ButtonComponent
+                label="submit"
+            />
+        );
+        const result = await axe(container);
+        expect(result).toHaveNoViolations();
     })
 })
