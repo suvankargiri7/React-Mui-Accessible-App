@@ -36,7 +36,7 @@ const TodoForm: React.FC<TodoFormProps> = ({
     >
       <InputFieldComponent
         label="Todo Title"
-        placeholder='Enter your todo title'
+        placeholder="Enter your todo title"
         value={values.title}
         onChange={(value) => handleChange('title', value)}
         error={Boolean(errors.title)}
@@ -46,7 +46,7 @@ const TodoForm: React.FC<TodoFormProps> = ({
         multiline
         maxRows={5}
         label="Todo Description"
-        placeholder='Enter your todo description'
+        placeholder="Enter your todo description"
         value={values.description}
         onChange={(value) => handleChange('description', value)}
         error={Boolean(errors.description)}
@@ -54,7 +54,7 @@ const TodoForm: React.FC<TodoFormProps> = ({
       />
       <InputFieldComponent
         label="Due Date"
-        placeholder='Enter todo due date'
+        placeholder="Enter todo due date"
         value={values.duedate}
         onChange={(value) => handleChange('duedate', value)}
         error={Boolean(errors.duedate)}
@@ -65,4 +65,4 @@ const TodoForm: React.FC<TodoFormProps> = ({
   );
 };
 
-export default TodoForm
+export default TodoForm;

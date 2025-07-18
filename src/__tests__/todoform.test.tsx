@@ -1,5 +1,5 @@
 import { screen, render, fireEvent } from '@testing-library/react';
-import {axe} from 'jest-axe';
+import { axe } from 'jest-axe';
 import TodoForm from '../features/todoform';
 
 describe('Test todoform', () => {
@@ -62,11 +62,13 @@ describe('Test todoform', () => {
   it('it should submit with valid data', () => {});
   it('it has no accessibility vialoations', async () => {
     const handleChange = jest.fn();
-    const { container } = render(<TodoForm
+    const { container } = render(
+      <TodoForm
         values={{ title: '', description: '', duedate: '' }}
         errors={{}}
         handleChange={handleChange}
-      />);
+      />,
+    );
     const result = await axe(container);
     expect(result).toHaveNoViolations();
   });
