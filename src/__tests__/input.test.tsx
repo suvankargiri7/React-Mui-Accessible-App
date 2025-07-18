@@ -31,6 +31,26 @@ describe('Test input component', () => {
     fireEvent.change(input, { target: { value: 'Todo 2' } });
     expect(handleChange).toHaveBeenCalledWith('Todo 2');
   });
+  it('it should render as a textarea', () => {
+    const handleChange = jest.fn();
+    render(
+      <InputFieldComponent
+        label="Task Name"
+        value=""
+        onChange={handleChange}
+        multiline
+        maxRows={4}
+      />,
+    );
+    const input = screen.getByRole('textbox', { name: /Task Name/i });
+    expect(input).toBeInTheDocument();
+    fireEvent.change(input, {
+      target: { value: 'testing for textare\n this is a description' },
+    });
+    expect(handleChange).toHaveBeenCalledWith(
+      'testing for textare\n this is a description',
+    );
+  });
   it('it has no accessibility vialoations', async () => {
     const handleChange = jest.fn();
     const { container } = render(
