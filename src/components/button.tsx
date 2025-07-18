@@ -10,7 +10,7 @@ const ButtonComponent: React.FC<ButtonCompProps> = ({
   ...otherProps
 }) => {
   return (
-    <Button {...otherProps} aria-label={label}>
+    <Button {...otherProps} aria-label={label} title={label}>
       {label}
     </Button>
   );
