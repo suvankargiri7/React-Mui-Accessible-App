@@ -2,7 +2,7 @@ import React from "react";
 import { Button, ButtonProps } from "@mui/material";
 
 interface ButtonCompProps extends ButtonProps{
-    label: string
+    label: string;
 }
 
 const ButtonComponent: React.FC<ButtonCompProps> = ({label, ...otherProps}) => {
