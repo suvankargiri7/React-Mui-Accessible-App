@@ -1,4 +1,5 @@
 import { screen, render } from '@testing-library/react';
+import { axe } from 'jest-axe';
 import TitleComponent from '../components/title';
 
 describe('Test title component', () => {
@@ -79,5 +80,12 @@ describe('Test title component', () => {
     });
     expect(title).toBeInTheDocument();
     expect(title).toHaveTextContent('This is sample content');
+  });
+  it('it has no accessibility vialoations', async () => {
+    const { container } = render(
+      <TitleComponent label="This is sample content" />,
+    );
+    const result = await axe(container);
+    expect(result).toHaveNoViolations();
   });
 });
