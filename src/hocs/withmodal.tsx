@@ -8,7 +8,7 @@ interface WithModalOptions {
 
 export const withModal = <P extends object>(
   WrappedComponent: React.ComponentType<P>,
-  options: WithModalOptions,
+  options?: WithModalOptions,
 ) => {
   const modalHOC: React.FC<
     P & {
