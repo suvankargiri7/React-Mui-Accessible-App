@@ -93,7 +93,7 @@ describe('Test withFormControl HOC', () => {
     const Wrapped = withFormControl(DummyForm, {
       initialValues,
       onSubmit: jest.fn(),
-      validate
+      validate,
     });
     render(<Wrapped />);
     const nameInput = screen.getByPlaceholderText(/name/i);

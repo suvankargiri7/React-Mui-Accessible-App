@@ -24,9 +24,9 @@ export const withFormControl = <T extends Record<string, any>>(
     };
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-        const validationErrors = options.validate(values);
-        setErrors(validationErrors);
-        if (Object.keys(validationErrors).length > 0) return;
+      const validationErrors = options.validate(values);
+      setErrors(validationErrors);
+      if (Object.keys(validationErrors).length > 0) return;
       options.onSubmit(values);
     };
 
