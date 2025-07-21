@@ -59,7 +59,6 @@ describe('Test todoform', () => {
     const form = screen.getByRole('button', { name: /submit/i });
     expect(form).toBeInTheDocument();
   });
-  it('it should submit with valid data', () => {});
   it('it has no accessibility vialoations', async () => {
     const handleChange = jest.fn();
     const { container } = render(
