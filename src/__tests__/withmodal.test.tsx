@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { withModal } from '../hocs/withmodal';
+import { withModal } from '../hocs/withModal';
 
 const MockComponent: React.FC<{ text: string }> = ({ text }) => (
   <div>{text}</div>
