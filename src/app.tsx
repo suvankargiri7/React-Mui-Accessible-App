@@ -5,6 +5,7 @@ import { withFormControl } from './hocs/withformcontrol';
 import { Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import TodoForm from './features/todoform';
+import TodoGrid from './features/todogrid';
 
 const style: React.CSSProperties = {
   position: 'absolute',
@@ -18,6 +19,15 @@ const style: React.CSSProperties = {
   maxWidth: '90%',
   width: '400px',
 };
+
+const fabStyle: React.CSSProperties = {
+    margin: 0,
+    top: 'auto',
+    left: 'auto',
+    bottom: 20,
+    right: 20,
+    position: 'fixed',
+}
 
 const formOptions = {
   initialValues: { title: '', description: '', duedate: '' },
@@ -42,8 +52,8 @@ const formOptions = {
   },
 };
 
-const UserFormWithControl = withFormControl(TodoForm, formOptions);
-const UserFormModal = withModal(UserFormWithControl, {
+const TodoFormWithControl = withFormControl(TodoForm, formOptions);
+const TodoFormModal = withModal(TodoFormWithControl, {
   containerProps: style,
 });
 
@@ -51,17 +61,17 @@ const App: React.FC<{}> = () => {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <> This is todo item cards </>
-
+      <TodoGrid />
       <Fab
         color="primary"
         aria-label="click to add todo"
         onClick={() => setOpen(true)}
         data-testid="click-to-add-todo"
+        style={fabStyle}
       >
         <AddIcon />
       </Fab>
-      <UserFormModal
+      <TodoFormModal
         open={open}
         onClose={() => setOpen(false)}
         title="Add todo form"
