@@ -25,6 +25,7 @@ const TodoForm: React.FC<TodoFormProps> = ({
   values,
   errors,
   handleChange,
+  handleSubmit
 }) => {
   return (
     <Box

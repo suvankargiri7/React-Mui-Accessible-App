@@ -74,7 +74,7 @@ const WithCard = <P extends object>(
           }
         />
         <CardContent>
-          <WrappedComponent {...(data as P)} />
+          <WrappedComponent {...(data)} />
         </CardContent>
       </Card>
     );
