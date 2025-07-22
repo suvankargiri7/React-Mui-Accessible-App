@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
+import { axe } from 'jest-axe';
 import TodoGrid from '../features/todogrid';
 import userEvent from '@testing-library/user-event';
 
@@ -55,5 +56,21 @@ describe('Test TodoGrid', () => {
     expect(mockSetTodos).toHaveBeenCalledWith(expect.any(Function));
     await user.click(screen.getAllByRole('button', { name: /edit/i })[0]);
     expect(screen.getByRole('presentation')).toBeInTheDocument();
+  });
+  it('should close the EditTodoFormModal and reset editingTodo on close', async () => {
+    const user = userEvent.setup();
+    render(<TodoGrid todos={mockTodos} setTodos={mockSetTodos} />);
+
+    await user.click(screen.getAllByRole('button', { name: /edit/i })[0]);
+    expect(screen.queryByTitle(/Edit todo/i)).toBeInTheDocument();
+    await user.keyboard('{Escape}');
+    expect(screen.queryByTitle(/Edit Todo/i)).not.toBeInTheDocument();
+  });
+  it('it has no accessibility vialoations', async () => {
+    const { container } = render(
+      <TodoGrid todos={mockTodos} setTodos={mockSetTodos} />,
+    );
+    const result = await axe(container);
+    expect(result).toHaveNoViolations();
   });
 });
