@@ -116,12 +116,12 @@ describe('Test useLocalStorage', () => {
   });
   it('should catch and log error when localStorage.removeItem throws during clear', () => {
     const TestComponent = () => {
-      const [value, clear] = useLocalStorage('test-key', 'initial');
+      const [value, setValue, clear] = useLocalStorage('test-key', 'initial');
 
       return (
         <div>
           <p data-testid="value">{value}</p>
-          <button onClick={() => clear}>Clear</button>
+          <button onClick={clear}>Clear</button>
         </div>
       );
     };
