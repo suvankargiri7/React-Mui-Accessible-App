@@ -6,6 +6,7 @@ import TodoItem from '../components/todoitem';
 
 describe('Test TodoItem', () => {
   const mockTodo = {
+    id: 1,
     title: 'Test Todo',
     description: 'Test Description',
     dueDate: '2024-03-15',
@@ -14,6 +15,7 @@ describe('Test TodoItem', () => {
   it('renders todo information correctly', () => {
     render(
       <TodoItem
+        id={mockTodo.id}
         title={mockTodo.title}
         description={mockTodo.description}
         dueDate={mockTodo.dueDate}
@@ -27,6 +29,7 @@ describe('Test TodoItem', () => {
   it('it has no accessibility vialoations', async () => {
     const { container } = render(
       <TodoItem
+        id={mockTodo.id}
         title={mockTodo.title}
         description={mockTodo.description}
         dueDate={mockTodo.dueDate}
