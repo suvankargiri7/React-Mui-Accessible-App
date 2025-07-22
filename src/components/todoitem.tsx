@@ -14,12 +14,13 @@ const TodoItem: React.FC<TodoItemProps> = ({
   title,
   description,
   dueDate,
+  completed,
 }) => {
   return (
     <>
-      <TitleComponent label={title} variant="h2" />
-      <TitleComponent label={description} variant="body2" />
-      <TitleComponent label={dueDate} variant="body2" />
+      <TitleComponent label={title} variant="h2" sx={completed? {textDecoration: 'line-through', fontSize:'24px'}: {fontSize:'24px'}}/>
+      <TitleComponent label={description} variant="body2" sx={completed? {textDecoration: 'line-through'}:{}}/>
+      <TitleComponent label={dueDate} variant="body2" sx={completed? {textDecoration: 'line-through'}:{}}/>
     </>
   );
 };

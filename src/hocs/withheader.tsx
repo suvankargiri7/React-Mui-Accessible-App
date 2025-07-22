@@ -7,7 +7,7 @@ const withHeader = <P extends object>(Component: React.ComponentType<P>) => {
     <>
       <AppBar position="static">
         <Toolbar>
-          <TitleComponent variant="h1" label="Todo App" />
+          <TitleComponent variant="h1" label="Todo App" sx={{fontSize: '30px'}}/>
         </Toolbar>
       </AppBar>
       <Component {...props} />

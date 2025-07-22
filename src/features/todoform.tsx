@@ -61,7 +61,10 @@ const TodoForm: React.FC<TodoFormProps> = ({
         error={Boolean(errors.duedate)}
         helperText={errors.duedate}
       />
-      <ButtonComponent label="Submit" type="submit" />
+      <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+        <ButtonComponent label="Submit" type="submit" variant='outlined'/>
+      </Box>
+      
     </Box>
   );
 };
