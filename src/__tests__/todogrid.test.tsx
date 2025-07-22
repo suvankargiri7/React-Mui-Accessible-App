@@ -3,9 +3,28 @@ import { render, screen } from '@testing-library/react';
 import TodoGrid from '../features/todogrid';
 import userEvent from '@testing-library/user-event';
 
+const mockTodos = [
+  {
+    id: 1,
+    title: 'Complete Project',
+    description: 'Finish the React Material UI project implementation',
+    dueDate: '2024-03-20',
+    completed: false,
+  },
+  {
+    id: 2,
+    title: 'Review Code',
+    description: 'Review pull requests and provide feedback',
+    dueDate: '2024-03-15',
+    completed: false,
+  },
+];
+
+const mockSetTodos = jest.fn();
+
 describe('Test TodoGrid', () => {
   it('renders all initial todos with their details', () => {
-    render(<TodoGrid />);
+    render(<TodoGrid todos={mockTodos} setTodos={mockSetTodos} />);
     expect(screen.getByText('Complete Project')).toBeInTheDocument();
     expect(screen.getByText('Review Code')).toBeInTheDocument();
     expect(
@@ -19,19 +38,20 @@ describe('Test TodoGrid', () => {
   });
 
   it('renders Edit, Complete, and Delete buttons for each todo', () => {
-    render(<TodoGrid />);
+    render(<TodoGrid todos={mockTodos} setTodos={mockSetTodos} />);
     expect(screen.getAllByRole('button', { name: /edit/i })).toHaveLength(2);
-    expect(screen.getAllByRole('button', { name: /complete/i })).toHaveLength(
-      2,
-    );
+    expect(screen.getAllByRole('button', { name: /complete/i })).toHaveLength(2);
     expect(screen.getAllByRole('button', { name: /delete/i })).toHaveLength(2);
   });
 
   it('calls the correct handler when action buttons are clicked', async () => {
     const user = userEvent.setup();
-    render(<TodoGrid />);
-    await user.click(screen.getAllByRole('button', { name: /edit/i })[0]);
+    render(<TodoGrid todos={mockTodos} setTodos={mockSetTodos} />);
     await user.click(screen.getAllByRole('button', { name: /complete/i })[0]);
+    expect(mockSetTodos).toHaveBeenCalledWith(expect.any(Function));
     await user.click(screen.getAllByRole('button', { name: /delete/i })[0]);
+    expect(mockSetTodos).toHaveBeenCalledWith(expect.any(Function));
+    await user.click(screen.getAllByRole('button', { name: /edit/i })[0]);
+    expect(screen.getByRole('presentation')).toBeInTheDocument();
   });
 });
