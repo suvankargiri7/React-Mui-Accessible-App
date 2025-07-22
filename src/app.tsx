@@ -6,6 +6,8 @@ import { Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import TodoForm from './features/todoform';
 import TodoGrid from './features/todogrid';
+import useLocalStorage from './hooks/useLocalStorage';
+import { TodoItemProps } from './components/todoitem';
 
 const style: React.CSSProperties = {
   position: 'absolute',
@@ -21,47 +23,68 @@ const style: React.CSSProperties = {
 };
 
 const fabStyle: React.CSSProperties = {
-    margin: 0,
-    top: 'auto',
-    left: 'auto',
-    bottom: 20,
-    right: 20,
-    position: 'fixed',
-}
-
-const formOptions = {
-  initialValues: { title: '', description: '', duedate: '' },
-  onSubmit: (values: {
-    title: string;
-    description: string;
-    duedate: string;
-  }) => {
-    console.log('Form Submitted:', values);
-  },
-  validate: (values: {
-    title: string;
-    description: string;
-    duedate: string;
-  }) => {
-    const errors: { title?: string; description?: string; duedate?: string } =
-      {};
-    if (!values.title) errors.title = 'Title is required';
-    if (!values.description) errors.description = 'Description is required';
-    if (!values.duedate) errors.duedate = 'Duedate is required';
-    return errors;
-  },
+  margin: 0,
+  top: 'auto',
+  left: 'auto',
+  bottom: 20,
+  right: 20,
+  position: 'fixed',
 };
-
-const TodoFormWithControl = withFormControl(TodoForm, formOptions);
-const TodoFormModal = withModal(TodoFormWithControl, {
-  containerProps: style,
-});
 
 const App: React.FC<{}> = () => {
   const [open, setOpen] = useState(false);
+  const [todos, setTodos] = useLocalStorage<TodoItemProps[]>('my-todos', []);
+
+  const addTodo = (values: {
+    title: string;
+    description: string;
+    duedate: string;
+  }) => {
+    const newId =
+      todos.length > 0
+        ? Math.max(...todos.map((t: TodoItemProps) => t.id)) + 1
+        : 1;
+    setTodos([
+      ...todos,
+      {
+        id: newId,
+        title: values.title,
+        description: values.description,
+        dueDate: values.duedate,
+        completed: false,
+      },
+    ]);
+    setOpen(false);
+  };
+
+  const formOptions = {
+    initialValues: { title: '', description: '', duedate: '' },
+    onSubmit: addTodo,
+    validate: (values: {
+      title: string;
+      description: string;
+      duedate: string;
+    }) => {
+      const errors: {
+        title?: string;
+        description?: string;
+        duedate?: string;
+      } = {};
+      if (!values.title) errors.title = 'Title is required';
+      if (!values.description) errors.description = 'Description is required';
+      if (!values.duedate) errors.duedate = 'Duedate is required';
+      return errors;
+    },
+  };
+
+  const TodoFormWithControl = withFormControl(TodoForm, formOptions);
+  const TodoFormModal = withModal(TodoFormWithControl, {
+    containerProps: style,
+  });
+
   return (
     <>
-      <TodoGrid />
+      <TodoGrid todos={todos} setTodos={setTodos} />
       <Fab
         color="primary"
         aria-label="click to add todo"
