@@ -22,6 +22,7 @@ export const withModal = <P extends object>(
       <Modal
         open={open}
         onClose={onClose}
+        title={title}
         aria-labelledby={`modal-${title}`}
         aria-describedby={`modal-${description}`}
         {...options?.modalProps}

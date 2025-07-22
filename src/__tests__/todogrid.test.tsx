@@ -40,7 +40,9 @@ describe('Test TodoGrid', () => {
   it('renders Edit, Complete, and Delete buttons for each todo', () => {
     render(<TodoGrid todos={mockTodos} setTodos={mockSetTodos} />);
     expect(screen.getAllByRole('button', { name: /edit/i })).toHaveLength(2);
-    expect(screen.getAllByRole('button', { name: /complete/i })).toHaveLength(2);
+    expect(screen.getAllByRole('button', { name: /complete/i })).toHaveLength(
+      2,
+    );
     expect(screen.getAllByRole('button', { name: /delete/i })).toHaveLength(2);
   });
 

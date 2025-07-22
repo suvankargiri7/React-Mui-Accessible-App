@@ -126,16 +126,18 @@ describe('Test useLocalStorage', () => {
       );
     };
 
-    const removeItemSpy = jest.spyOn(Storage.prototype, 'removeItem').mockImplementation(() => {
-      throw new Error('Mock removeItem error');
-    });
+    const removeItemSpy = jest
+      .spyOn(Storage.prototype, 'removeItem')
+      .mockImplementation(() => {
+        throw new Error('Mock removeItem error');
+      });
 
     render(<TestComponent />);
     fireEvent.click(screen.getByText('Clear'));
 
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       expect.stringContaining('Error clearing localStorage key'),
-      expect.any(Error)
+      expect.any(Error),
     );
     removeItemSpy.mockRestore();
   });

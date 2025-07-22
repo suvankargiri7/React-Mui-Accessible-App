@@ -45,7 +45,10 @@ const WithCard = <P extends object>(
             <Stack direction="row" spacing={1}>
               {onEdit && (
                 <Tooltip title="Edit">
-                  <IconButton onClick={() => onEdit(data)} disabled={completed}>
+                  <IconButton
+                    onClick={() => onEdit(data)}
+                    disabled={completed}
+                  >
                     <EditIcon />
                   </IconButton>
                 </Tooltip>
