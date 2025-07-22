@@ -33,6 +33,7 @@ const WithCard = <P extends object>(
     onDelete,
     onComplete,
   }: ActionHandlers<P> & { data: P }) => {
+    const { completed } = data as { completed: boolean };
     return (
       <Card
         {...options?.cardProps}
@@ -44,14 +45,17 @@ const WithCard = <P extends object>(
             <Stack direction="row" spacing={1}>
               {onEdit && (
                 <Tooltip title="Edit">
-                  <IconButton onClick={() => onEdit(data)}>
+                  <IconButton onClick={() => onEdit(data)} disabled={completed}>
                     <EditIcon />
                   </IconButton>
                 </Tooltip>
               )}
               {onComplete && (
                 <Tooltip title="Complete">
-                  <IconButton onClick={() => onComplete(data)}>
+                  <IconButton
+                    onClick={() => onComplete(data)}
+                    disabled={completed}
+                  >
                     <CheckCircleIcon />
                   </IconButton>
                 </Tooltip>
