@@ -1,42 +1,105 @@
-import React, { useState } from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import { Box, Container, Stack } from '@mui/material';
 import TodoItem, { TodoItemProps } from '../components/todoitem';
 import WithCard from '../hocs/withCard';
-
-// Sample data
-const initialTodos: TodoItemProps[] = [
-  {
-    title: 'Complete Project',
-    description: 'Finish the React Material UI project implementation',
-    dueDate: '2024-03-20',
-    completed: false,
-  },
-  {
-    title: 'Review Code',
-    description: 'Review pull requests and provide feedback',
-    dueDate: '2024-03-15',
-    completed: true,
-  },
-];
+import { withModal } from '../hocs/withModal';
+import { withFormControl } from '../hocs/withformcontrol';
+import TodoForm from './todoform';
+interface TodoGridProps {
+  todos: TodoItemProps[];
+  setTodos: Dispatch<SetStateAction<TodoItemProps[]>>;
+}
 
 const TodoCard = WithCard(TodoItem, { title: 'Task' });
 
-const TodoGrid: React.FC = () => {
-  const [todos, setTodos] = useState<TodoItemProps[]>(initialTodos);
-  const [editTodo, setEditTodo] = useState<TodoItemProps | null>(null);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+const style: React.CSSProperties = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  backgroundColor: '#fff',
+  boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+  padding: '16px',
+  borderRadius: '8px',
+  maxWidth: '90%',
+  width: '400px',
+};
 
-  const handleEdit = (data: any) => {
-    console.log('Edit clicked', data);
+const TodoGrid: React.FC<TodoGridProps> = ({ todos, setTodos }) => {
+  const [editOpen, setEditOpen] = useState(false);
+  const [editingTodo, setEditingTodo] = useState<TodoItemProps | null>(null);
+
+  const updateTodo = (updatedTodo: TodoItemProps) => {
+    setTodos((prev) =>
+      prev.map((todo) => (todo.id === updatedTodo.id ? updatedTodo : todo)),
+    );
   };
 
-  const handleDelete = (data: any) => {
-    console.log('Delete clicked', data);
+  const deleteTodo = (id: number) => {
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
   };
 
-  const handleComplete = (data: any) => {
-    console.log('Complete clicked', data);
+  const handleEdit = (todo: TodoItemProps) => {
+    setEditingTodo(todo);
+    setEditOpen(true);
   };
+
+  const handleDelete = (todo: TodoItemProps) => {
+    deleteTodo(todo.id);
+  };
+
+  const handleComplete = (todo: TodoItemProps) => {
+    updateTodo({ ...todo, completed: true });
+  };
+
+  const editFormOptions = editingTodo
+    ? {
+        initialValues: {
+          title: editingTodo.title,
+          description: editingTodo.description,
+          duedate: editingTodo.dueDate,
+        },
+        onSubmit: (values: {
+          title: string;
+          description: string;
+          duedate: string;
+        }) => {
+          if (editingTodo) {
+            updateTodo({
+              ...editingTodo,
+              title: values.title,
+              description: values.description,
+              dueDate: values.duedate,
+            });
+            setEditOpen(false);
+            setEditingTodo(null);
+          }
+        },
+        validate: (values: {
+          title: string;
+          description: string;
+          duedate: string;
+        }) => {
+          const errors: {
+            title?: string;
+            description?: string;
+            duedate?: string;
+          } = {};
+          if (!values.title) errors.title = 'Title is required';
+          if (!values.description)
+            errors.description = 'Description is required';
+          if (!values.duedate) errors.duedate = 'Due date is required';
+          return errors;
+        },
+      }
+    : null;
+
+  const EditTodoFormWithControl = editFormOptions
+    ? withFormControl(TodoForm, editFormOptions)
+    : null;
+  const EditTodoFormModal = EditTodoFormWithControl
+    ? withModal(EditTodoFormWithControl, { containerProps: style })
+    : null;
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -58,7 +121,7 @@ const TodoGrid: React.FC = () => {
         >
           {todos.map((todo) => (
             <TodoCard
-              key={todo.title}
+              key={todo.id}
               data={todo}
               onEdit={handleEdit}
               onDelete={handleDelete}
@@ -67,6 +130,17 @@ const TodoGrid: React.FC = () => {
           ))}
         </Stack>
       </Box>
+      {EditTodoFormModal && (
+        <EditTodoFormModal
+          open={editOpen}
+          onClose={() => {
+            setEditOpen(false);
+            setEditingTodo(null);
+          }}
+          title="Edit todo"
+          description="Edit todo form with title, description and due date"
+        />
+      )}
     </Container>
   );
 };
