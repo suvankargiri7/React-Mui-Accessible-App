@@ -2,6 +2,7 @@ import React from 'react';
 import TitleComponent from './title';
 
 export interface TodoItemProps {
+  id: number;
   title: string;
   description: string;
   dueDate: string;
@@ -9,6 +10,7 @@ export interface TodoItemProps {
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({
+  id,
   title,
   description,
   dueDate,
