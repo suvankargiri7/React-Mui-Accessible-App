@@ -10,6 +10,14 @@ A **React+MaterialUI+Typescript starter** with **WCAG 2.0 accessibility complian
 ***Prettier and ESLint*** for consistent code <br/>
 ***Solid Principles***
 
+## 💻 Basic Requirement
+*Add todo item* <br/>
+*Edit todo item* <br/>
+*Complete todo item* <br/>
+*Delete todo item*<br/>
+*Store todo data to save localstorage* <br/>
+
+
 ## 🚀 Installation
 
 Clone the below repo
